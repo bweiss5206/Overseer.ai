@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1678755194",
+        "python_version": "3.9.9 (tags/v3.9.9:ccb0e6a, Nov 15 2021, 18:08:50) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\bweiss\\AppData\\Local\\Programs\\Python\\Python39\\Scripts\\mlagents-learn C:\\Users\\bweiss\\ml-agents\\config\\SimpleCollector.yaml --num-envs=4 --env=C:\\Users\\bweiss\\ML_HW5\\Build\\ML_HW5.exe --run-id sc32",
+        "mlagents_version": "0.30.0",
+        "mlagents_envs_version": "0.30.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.13.1+cpu",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1678755204"
+    },
+    "total": 10.6162982,
+    "count": 1,
+    "self": 0.8564985999999983,
+    "children": {
+        "run_training.setup": {
+            "total": 0.4298787000000006,
+            "count": 1,
+            "self": 0.4298787000000006
+        },
+        "TrainerController.start_learning": {
+            "total": 9.329920900000001,
+            "count": 1,
+            "self": 0.00014819999999993172,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 9.329754900000001,
+                    "count": 1,
+                    "self": 9.329754900000001
+                },
+                "TrainerController._save_models": {
+                    "total": 1.7800000000178784e-05,
+                    "count": 1,
+                    "self": 1.7800000000178784e-05
+                }
+            }
+        }
+    }
+}
