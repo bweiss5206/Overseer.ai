@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class SimpleCollectorAgent : Agent
 {
+    //public gameObject Objective;
     private Vector3 startPosition;
     private SimpleCharacterController characterController;
     new private Rigidbody rigidbody;
+
 
     /// <summary>
     /// Called once when the agent is first initialized
@@ -17,7 +19,7 @@ public class SimpleCollectorAgent : Agent
         characterController = GetComponent<SimpleCharacterController>();
         rigidbody = GetComponent<Rigidbody>();
     }
-
+ 
     /// <summary>
     /// Called every time an episode begins. This is where we reset the challenge.
     /// </summary>
@@ -36,8 +38,9 @@ public class SimpleCollectorAgent : Agent
         // Reset platform position (5 meters away from the agent in a random direction)
         //platform.transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 30f);
         for (int i = 0; i<25; ++i){
-            platform.transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 250f);
-            GameObject a = Instantiate(SimpleAgent);
+            
+            GameObject a = Instantiate(gameObject);
+            a.transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 250f);
             a.SetActive(true);
             a.tag = "clone";
         }
@@ -98,12 +101,15 @@ public class SimpleCollectorAgent : Agent
     private void OnTriggerEnter(Collider other)
     {
         // If the other object is a collectible, reward and end episode
-        if (other.tag == "collectible")
+        if (other.tag == "Objective")
         {
+            
             AddReward(1f);
-            Destroy(other.gameObject);
+            (other.gameObject).GetComponent<ObjectiveComplete>.Fade();
+            //ObjectiveComplete:Fade(other.gameObject);
         }
     }
 
     
 }
+ 
