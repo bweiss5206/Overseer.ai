@@ -105,6 +105,8 @@ public class SimpleCollectorAgent : Agent
         {
             
             AddReward(1f);
+            new t = (other.gameObject).GetComponent<ObjectiveComplete>;
+            t.Fade();
             //ObjectiveComplete:Fade(other.gameObject);
         }
     }
