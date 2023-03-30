@@ -9,7 +9,6 @@ public class SimpleCollectorAgent : Agent
     private SimpleCharacterController characterController;
     new private Rigidbody rigidbody;
 
-
     /// <summary>
     /// Called once when the agent is first initialized
     /// </summary>
@@ -105,12 +104,12 @@ public class SimpleCollectorAgent : Agent
         {
             
             AddReward(1f);
-            new t = (other.gameObject).GetComponent<ObjectiveComplete>;
-            t.Fade();
+            ObjectiveComplete O = (ObjectiveComplete) other.GetComponent(typeof(ObjectiveComplete));
+            O.Fade();
             //ObjectiveComplete:Fade(other.gameObject);
         }
     }
 
     
 }
- 
+  
