@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 333261401}
   m_Layer: 0
   m_Name: Objective B
-  m_TagString: Objective
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 672000144}
   m_Layer: 0
   m_Name: Objective Y
-  m_TagString: Objective
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -571,6 +571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 729792304}
+  - component: {fileID: 729792305}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -595,6 +596,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &729792305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729792303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5cdc2d0a2809f4fb6b636d858b5a1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SimpleAgent: {fileID: 2081197153}
 --- !u!1 &755787568
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,6 +744,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
   gunController: {fileID: 755787581}
+  fireCooldown: 0.5
 --- !u!114 &755787583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -883,7 +898,7 @@ GameObject:
   - component: {fileID: 1123380616}
   m_Layer: 0
   m_Name: Objective G
-  m_TagString: Objective
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -980,7 +995,7 @@ GameObject:
   - component: {fileID: 1137877383}
   m_Layer: 0
   m_Name: Objective R
-  m_TagString: Objective
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1727,7 +1742,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2081197154
 Transform:
   m_ObjectHideFlags: 0
@@ -1736,7 +1751,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081197153}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 500, y: 5, z: 664}
+  m_LocalPosition: {x: 500, y: 5, z: 500}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1821,9 +1836,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SensorName: RayPerceptionSensor
   m_DetectableTags:
-  - Objective
+  - Target
   - Wall
-  m_RaysPerDirection: 6
+  m_RaysPerDirection: 3
   m_MaxRayDegrees: 70
   m_SphereCastRadius: 0.5
   m_RayLength: 400
@@ -1863,7 +1878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 1
+  DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
 --- !u!114 &2081197163
 MonoBehaviour:
@@ -1882,12 +1897,12 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
-      BranchSizes: 030000000300000002000000
-    VectorActionSize: 030000000300000002000000
+      BranchSizes: 0300000003000000
+    VectorActionSize: 0300000003000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 950b843e01a4a2c49b84397b05fa9cf0, type: 3}
   m_InferenceDevice: 3
   m_BehaviorType: 0
   m_BehaviorName: SimpleCollector
@@ -1924,7 +1939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slopeLimit: 45
-  moveSpeed: 5
+  moveSpeed: 50
   turnSpeed: 300
   allowJump: 0
   jumpSpeed: 4

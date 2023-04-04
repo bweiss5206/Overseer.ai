@@ -23,30 +23,33 @@ public class SimpleCollectorAgent : Agent
     /// <summary>
     /// Called every time an episode begins. This is where we reset the challenge.
     /// </summary>
-    public override void OnEpisodeBegin()
-    {
-        //commented for testing purposes
-        // // Reset agent position, rotation
-        // transform.position = startPosition;
-        // transform.rotation = Quaternion.Euler(Vector3.up * Random.Range(0f, 360f));
-        // rigidbody.velocity = Vector3.zero;
+     public override void OnEpisodeBegin()
+     {
+         transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 250f);;
+         transform.rotation = Quaternion.Euler(Vector3.up * Random.Range(0f, 360f));
+         rigidbody.velocity = Vector3.zero;
         
-        //     var clones = GameObject.FindGameObjectsWithTag("clone");
-        //     foreach (var clone in clones){
-        //              Destroy(clone);
-        //         }
-        // // 
-        // // Reset platform position (5 meters away from the agent in a random direction)
-        // //platform.transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 30f);
-        // for (int i = 0; i<25; ++i){
+    //      // Reset agent position, rotation
+    //      transform.position = startPosition;
+    //      transform.rotation = Quaternion.Euler(Vector3.up * Random.Range(0f, 360f));
+    //      rigidbody.velocity = Vector3.zero;
+        
+    //          var clones = GameObject.FindGameObjectsWithTag("clone");
+    //          foreach (var clone in clones){
+    //                   Destroy(clone);
+    //              }
+         
+    //      //Reset platform position (5 meters away from the agent in a random direction)
+    //      //platform.transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 30f);
+    //     for (int i = 0; i<25; ++i){
             
-        //     GameObject a = Instantiate(gameObject);
-        //     a.transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 250f);
-        //     a.SetActive(true);
-        //     a.tag = "clone";
-        // }
-        // //platform(clone).SetActive(true);
-    }
+    //         GameObject a = Instantiate(gameObject);
+    //         a.transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 250f);
+    //         a.SetActive(true);
+    //         a.tag = "clone";
+    //     }
+    //     //platform(clone).SetActive(true);
+     }
 
     /// <summary>
     /// Controls the agent with human input
