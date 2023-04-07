@@ -25,7 +25,7 @@ public class SimpleCollectorAgent : Agent
     /// </summary>
      public override void OnEpisodeBegin()
      {
-         transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 250f);;
+         transform.position = startPosition + Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) * Vector3.forward * Random.Range(0f, 100f);;
          transform.rotation = Quaternion.Euler(Vector3.up * Random.Range(0f, 360f));
          rigidbody.velocity = Vector3.zero;
         
@@ -81,11 +81,11 @@ public class SimpleCollectorAgent : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         // Punish and end episode if the agent strays too far
-        if (Vector3.Distance(startPosition, transform.position) > 400f)
+        /*if (Vector3.Distance(startPosition, transform.position) > 400f)
         {
             AddReward(-1f);
             EndEpisode();
-        }
+        }*/
 
         // Convert actions from Discrete (0, 1, 2) to expected input values (-1, 0, +1)
         // of the character controller
