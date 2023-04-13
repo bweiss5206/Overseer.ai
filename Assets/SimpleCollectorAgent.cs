@@ -109,7 +109,7 @@ public class SimpleCollectorAgent : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         // Punish and end episode if the agent strays too far
-        if (Vector3.Distance(startPosition, transform.position) > 120f)
+        if (Vector3.Distance(startPosition, transform.position) > 140f)
         {
             AddReward(-1f);
             EndEpisode();
