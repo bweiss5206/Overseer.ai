@@ -19,14 +19,14 @@ public void Start()
         {
             
             StartCoroutine(Fade());
-            print("collide");
+            //print("collide");
             //ObjectiveComplete:Fade(other.gameObject);
         }
     }
 
     IEnumerator Fade()
 {
-        print("fade");
+        //print("fade");
             
         yield return new WaitForSeconds(1f);
         this.gameObject.tag = "Untagged";

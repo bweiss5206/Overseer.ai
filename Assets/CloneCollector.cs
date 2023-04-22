@@ -20,6 +20,10 @@ public class SimpleCollectorAgent : Agent
     public GameObject ObjectiveY;
     public GameObject gameo;
 
+    private GameObject Coin;
+    private Vector3 coinStart;
+    private Vector3 coinPos;
+
 
     /// <summary>
     /// Called once when the agent is first initialized
@@ -38,7 +42,7 @@ public class SimpleCollectorAgent : Agent
      public override void OnEpisodeBegin()
      {
         done = true;
-         transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);;
+         transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
          transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
          rigidbody.velocity = Vector3.zero;
 
@@ -136,7 +140,7 @@ public class SimpleCollectorAgent : Agent
         //print(other);
         //print(other.tag);
         // If the other object is a collectible, reward and end episode
-        if (other.tag == "Target")
+        if (other.tag == "Coin")
         {
             //print("test");
         //System.Threading.Thread.Sleep(5000);
@@ -145,6 +149,7 @@ public class SimpleCollectorAgent : Agent
                 StartCoroutine(waiter());
                 //print("waiting");
             }
+            Coin.transform.position = coinStart + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
             
             //ObjectiveComplete O = (ObjectiveComplete) other.GetComponent(typeof(ObjectiveComplete));
             //O.Fade();
@@ -165,11 +170,6 @@ public class SimpleCollectorAgent : Agent
     canMove = true;
     done = true;
     //done = true;
-    if (GameObject.FindWithTag("Target") == null)
-    {
-        print("Game Won");
-        EndEpisode();
-    }
     
 }
 }

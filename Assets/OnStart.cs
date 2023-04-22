@@ -23,7 +23,7 @@ public class OnStart : MonoBehaviour
             GameObject a = Instantiate(SimpleAgent, this.transform);
             a.SetActive(true);
             a.tag = "clone";
-            print("clone");
+            //print("clone");
         }
         //platform(clone).SetActive(true);
     }
