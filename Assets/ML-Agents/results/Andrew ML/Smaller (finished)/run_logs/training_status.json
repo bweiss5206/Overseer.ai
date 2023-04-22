@@ -1,0 +1,65 @@
+{
+    "SimpleCollector": {
+        "checkpoints": [
+            {
+                "steps": 18499880,
+                "file_path": "results\\Smaller\\SimpleCollector\\SimpleCollector-18499880.onnx",
+                "reward": 3.0,
+                "creation_time": 1681964830.1187992,
+                "auxillary_file_paths": [
+                    "results\\Smaller\\SimpleCollector\\SimpleCollector-18499880.pt"
+                ]
+            },
+            {
+                "steps": 18999961,
+                "file_path": "results\\Smaller\\SimpleCollector\\SimpleCollector-18999961.onnx",
+                "reward": null,
+                "creation_time": 1681969290.5028765,
+                "auxillary_file_paths": [
+                    "results\\Smaller\\SimpleCollector\\SimpleCollector-18999961.pt"
+                ]
+            },
+            {
+                "steps": 19499947,
+                "file_path": "results\\Smaller\\SimpleCollector\\SimpleCollector-19499947.onnx",
+                "reward": 4.0,
+                "creation_time": 1681973760.905244,
+                "auxillary_file_paths": [
+                    "results\\Smaller\\SimpleCollector\\SimpleCollector-19499947.pt"
+                ]
+            },
+            {
+                "steps": 19999992,
+                "file_path": "results\\Smaller\\SimpleCollector\\SimpleCollector-19999992.onnx",
+                "reward": 4.0,
+                "creation_time": 1681978263.9003935,
+                "auxillary_file_paths": [
+                    "results\\Smaller\\SimpleCollector\\SimpleCollector-19999992.pt"
+                ]
+            },
+            {
+                "steps": 20000120,
+                "file_path": "results\\Smaller\\SimpleCollector\\SimpleCollector-20000120.onnx",
+                "reward": 4.0,
+                "creation_time": 1681978264.457259,
+                "auxillary_file_paths": [
+                    "results\\Smaller\\SimpleCollector\\SimpleCollector-20000120.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 20000120,
+            "file_path": "results\\Smaller\\SimpleCollector.onnx",
+            "reward": 4.0,
+            "creation_time": 1681978264.457259,
+            "auxillary_file_paths": [
+                "results\\Smaller\\SimpleCollector\\SimpleCollector-20000120.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
