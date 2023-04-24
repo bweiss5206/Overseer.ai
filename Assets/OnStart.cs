@@ -7,7 +7,7 @@ public class OnStart : MonoBehaviour
     public GameObject SimpleAgent;
     // Start is called before the first frame update
     public void Start()
-    {
+    {/*
         
          // Reset agent position, rotation
         
@@ -26,7 +26,7 @@ public class OnStart : MonoBehaviour
             //print("clone");
         }
         //platform(clone).SetActive(true);
-    }
+    */}
 
     // Update is called once per frame
     void Update()

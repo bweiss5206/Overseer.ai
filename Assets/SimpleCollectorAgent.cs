@@ -18,6 +18,8 @@ public class SimpleCollectorAgent : Agent
     public GameObject ObjectiveG;
     public GameObject ObjectiveB;
     public GameObject ObjectiveY;
+    //public gameObject Coin;
+    //private Vector3 CoinStart;
     public GameObject gameo;
 
 
@@ -38,7 +40,7 @@ public class SimpleCollectorAgent : Agent
      public override void OnEpisodeBegin()
      {
         done = true;
-         transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);;
+         transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
          transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
          rigidbody.velocity = Vector3.zero;
 
@@ -150,6 +152,9 @@ public class SimpleCollectorAgent : Agent
             //O.Fade();
             //ObjectiveComplete:Fade(other.gameObject);
         }
+        /*if (other.tag == Coin.gameObject.tag){
+            Coin.transform.position = CoinStart + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
+        }*/
     }
     IEnumerator waiter()
 {
