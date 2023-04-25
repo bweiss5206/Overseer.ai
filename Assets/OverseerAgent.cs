@@ -2,12 +2,18 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using UnityEngine;
 using Unity.MLAgents.Sensors;
+using System.Collections.Generic;
+
 
 public class OverseerAgent : Agent
 {
     public GunController gunController;
     public float fireCooldown = 0.5f; // Adjust this value according to your desired cooldown time
     private float lastFireTime;
+    private int chosenEntityIndex;
+    public List<GameObject> entities;
+
+    public bool endEpisode;
 
     /// <summary>
     /// Called once when the agent is first initialized
@@ -29,7 +35,26 @@ public class OverseerAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
+        //endEpisode = false;
+    }
 
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        //entities.Sort((a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
+        int count = 0;
+        foreach (GameObject entity in entities)
+        {
+            if (entity != null)
+            {   
+                // Add position observation
+                sensor.AddObservation(entity.transform.position);
+            }
+            else
+            {
+                // count++;
+                // Debug.LogWarning("An entity in the entities list is null.");
+            }
+        }
     }
 
     /// <summary>
@@ -38,25 +63,35 @@ public class OverseerAgent : Agent
     /// <param name="actionsOut">The actions parsed from keyboard input</param>
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        float[] continuousActions = actionsOut.ContinuousActions.Array;
-        int[] discreteActions = actionsOut.DiscreteActions.Array;
 
-        // Get mouse position
-        Vector3 mousePosition = Input.mousePosition;
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            actionsOut.DiscreteActions.Array[0] = 0;
+        }
+        else if (Input.GetKey(KeyCode.Alpha2))
+        {
+            actionsOut.DiscreteActions.Array[0] = 1;
+        }
+        else if (Input.GetKey(KeyCode.Alpha3))
+        {
 
-        gunController.PointToMouse(mousePosition);
-
-        // Try normalized mouse position if regular doesnt work
-        //Vector2 normalizedMousePosition = new Vector2(mousePosition.x / Screen.width, mousePosition.y / Screen.height);
-
-        // Assign normalized mouse position to the first two dimensions of the action vector
-        continuousActions[0] = mousePosition.x;
-        continuousActions[1] = mousePosition.y;
-
-        // Assign the left mouse button input to the discrete action vector
-        discreteActions[0] = Input.GetMouseButton(0) ? 1 : 0;   
-        
+            actionsOut.DiscreteActions.Array[0] = 2;
+        }
+        else if (Input.GetKey(KeyCode.Alpha4))
+        {
+            actionsOut.DiscreteActions.Array[0] = 3;
+        }
+        else if (Input.GetKey(KeyCode.Alpha5))
+        {
+            actionsOut.DiscreteActions.Array[0] = 4;
+        }
+        else {
+            actionsOut.DiscreteActions.Array[0] = 5;
+        }
+       
     }
+    
+
 
     /// <summary>
     /// React to actions coming from either the neural net or human input
@@ -64,45 +99,45 @@ public class OverseerAgent : Agent
     /// <param name="actions">The actions received</param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        float[] vectorAction = actionBuffers.ContinuousActions.Array;
-        int[] discreteAction = actionBuffers.DiscreteActions.Array;
+        int chosenEntityIndex = actionBuffers.DiscreteActions[0];
 
-        // Convert the action vector to the AI-generated mouse position
-        Vector2 mousePosition = new Vector2(vectorAction[0], vectorAction[1]);
-
-        gunController.PointToMouse(mousePosition);
-
-        RaycastHit hit;
-        if (Physics.Raycast(gunController.firePoint.transform.position, gunController.firePoint.transform.forward, out hit))
+        Debug.Log(GetCumulativeReward());
+        GameObject chosenEntity = null;
+        entities.Sort((a, b) =>
         {
-            if (hit.collider.CompareTag("Player"))
+            if (a == null && b == null)
+                return 0; // Both are null, they are equal
+            else if (a == null)
+                return 1; // a is null, b is not null, a should be placed after b
+            else if (b == null)
+                return -1; // b is null, a is not null, a should be placed before b
+            else
+                return a.transform.position.x.CompareTo(b.transform.position.x); // Compare by their x positions
+        });
+
+        chosenEntity = entities[chosenEntityIndex];
+        Debug.Log(chosenEntityIndex);
+        //gunController.PointToMouse(chosenEntity.transform.position);
+
+        if(entities[chosenEntityIndex] != null){
+            // Check if the chosen entity is the player and assign rewards accordingly
+            if (chosenEntity.CompareTag("Player"))
             {
-                // Add small reward for looking at a player or NPC
-                AddReward(0.5f);
+                // Positive reward for choosing the correct entity
+                endEpisode = true;
+                AddReward(1.0f);
+                Debug.Log("EndEpisode");
+                EndEpisode();
             }
+
             else
             {
-                // Add small negative reward for not looking at a player
-                AddReward(-0.5f);
-            }
-
-            // Use the firing trigger to shoot
-            if (discreteAction[0] == 1)
-            {
-                Debug.Log("Fire");
-                if (hit.collider.CompareTag("Player"))
-                {
-                    //Debug.Log("Hit Player");
-                    AddReward(10.0f);
-                    EndEpisode();
-                }
-                else
-                {
-                    //Debug.Log("Missed Player");
-                    AddReward(-3.33f);
-                }
+                // Negative reward for choosing the wrong entity
+                AddReward(-1.0f);
             }
         }
-    }
 
+        // End the episode
+        
+    }
 }

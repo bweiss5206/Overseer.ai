@@ -22,6 +22,8 @@ public class SimpleCollectorAgent : Agent
     //private Vector3 CoinStart;
     public GameObject gameo;
 
+    private OverseerAgent overseerAgent;
+
 
     /// <summary>
     /// Called once when the agent is first initialized
@@ -31,6 +33,12 @@ public class SimpleCollectorAgent : Agent
         startPosition = transform.position;
         characterController = GetComponent<SimpleCharacterController>();
         rigidbody = GetComponent<Rigidbody>();
+
+        // Find the GameObject with the "Overseer" tag
+        GameObject overseerObject = GameObject.FindGameObjectWithTag("Overseer");
+
+        // Get the OverseerAgent component on the GameObject
+        overseerAgent = overseerObject.GetComponent<OverseerAgent>();
         
     }
  
@@ -39,6 +47,7 @@ public class SimpleCollectorAgent : Agent
     /// </summary>
      public override void OnEpisodeBegin()
      {
+        overseerAgent.endEpisode = false;
         done = true;
          transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
          transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
@@ -110,6 +119,10 @@ public class SimpleCollectorAgent : Agent
     /// <param name="actions">The actions received</param>
     public override void OnActionReceived(ActionBuffers actions)
     {
+        //if(overseerAgent != null){
+            
+        //}
+        
         // Punish and end episode if the agent strays too far
         if(rigidbody.position.y < 1)
         {
@@ -157,25 +170,32 @@ public class SimpleCollectorAgent : Agent
         }*/
     }
     IEnumerator waiter()
-{
-    done = false;
-    canMove = false;
-    AddReward(1f);
-    print("reward");
-    if (this.gameObject.tag == "clone"){
-        yield return new WaitForSeconds(15);
-    } else {
-        yield return new WaitForSeconds(3);
-    }
-    canMove = true;
-    done = true;
-    //done = true;
-    if (GameObject.FindWithTag("Target") == null)
     {
-        print("Game Won");
-        EndEpisode();
+        done = false;
+        canMove = false;
+        AddReward(1f);
+        print("reward");
+        if (this.gameObject.tag == "clone"){
+            yield return new WaitForSeconds(15);
+        } else {
+            yield return new WaitForSeconds(3);
+        }
+        canMove = true;
+        done = true;
+        //done = true;
+        if (GameObject.FindWithTag("Target") == null)
+        {
+            print("Game Won");
+            EndEpisode();
+        }
+        
     }
-    
-}
+    void Update(){
+        
+        if(overseerAgent.endEpisode == true){
+                Debug.Log(overseerAgent.endEpisode);
+                EndEpisode();
+            }
+    }
 }
   
