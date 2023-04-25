@@ -190,12 +190,5 @@ public class SimpleCollectorAgent : Agent
         }
         
     }
-    void Update(){
-        
-        if(overseerAgent.endEpisode == true){
-                Debug.Log(overseerAgent.endEpisode);
-                EndEpisode();
-            }
-    }
 }
   

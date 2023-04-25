@@ -12,6 +12,17 @@ public class OverseerAgent : Agent
     private float lastFireTime;
     private int chosenEntityIndex;
     public List<GameObject> entities;
+    public GameObject player;
+    public GameObject npc;
+    public GameObject npc1;
+    public GameObject npc2;
+    public GameObject npc3;
+    public GameObject npc4;
+    public GameObject ObjectiveR;
+    public GameObject ObjectiveG;
+    public GameObject ObjectiveB;
+    public GameObject ObjectiveY;
+    private Vector3 startPosition;
 
     public bool endEpisode;
 
@@ -20,6 +31,7 @@ public class OverseerAgent : Agent
     /// </summary>
     public override void Initialize()
     {
+        startPosition = player.transform.position;
         gunController = this.GetComponent<GunController>();
     }
 
@@ -36,6 +48,27 @@ public class OverseerAgent : Agent
     public override void OnEpisodeBegin()
     {
         //endEpisode = false;
+        player.transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
+        player.transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
+        npc.transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
+        npc.transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
+        npc1.transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
+        npc1.transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
+        npc2.transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
+        npc2.transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
+        npc3.transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
+        npc3.transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
+        npc4.transform.position = startPosition + Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f)) * Vector3.forward * UnityEngine.Random.Range(0f, 100f);
+        npc4.transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
+        
+        ObjectiveComplete R = (ObjectiveComplete) ObjectiveR.GetComponent(typeof(ObjectiveComplete));
+        R.Start();
+        ObjectiveComplete G = (ObjectiveComplete) ObjectiveG.GetComponent(typeof(ObjectiveComplete));
+        G.Start();
+        ObjectiveComplete B = (ObjectiveComplete) ObjectiveB.GetComponent(typeof(ObjectiveComplete));
+        B.Start();
+        ObjectiveComplete Y = (ObjectiveComplete) ObjectiveY.GetComponent(typeof(ObjectiveComplete));
+        Y.Start();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -101,7 +134,7 @@ public class OverseerAgent : Agent
     {
         int chosenEntityIndex = actionBuffers.DiscreteActions[0];
 
-        Debug.Log(GetCumulativeReward());
+        //Debug.Log(GetCumulativeReward());
         GameObject chosenEntity = null;
         entities.Sort((a, b) =>
         {
@@ -124,10 +157,7 @@ public class OverseerAgent : Agent
             if (chosenEntity.CompareTag("Player"))
             {
                 // Positive reward for choosing the correct entity
-                endEpisode = true;
                 AddReward(1.0f);
-                Debug.Log("EndEpisode");
-                EndEpisode();
             }
 
             else
@@ -135,6 +165,8 @@ public class OverseerAgent : Agent
                 // Negative reward for choosing the wrong entity
                 AddReward(-1.0f);
             }
+            Debug.Log("EndEpisode");
+            EndEpisode();
         }
 
         // End the episode

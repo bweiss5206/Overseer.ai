@@ -815,7 +815,6 @@ MonoBehaviour:
   ObjectiveB: {fileID: 333261399}
   ObjectiveY: {fileID: 672000139}
   gameo: {fileID: 729792303}
-  overseerAgent: {fileID: 0}
 --- !u!114 &612598870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1270,7 +1269,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: OverseerAgent
   TeamId: 0
   m_UseChildSensors: 1
@@ -1455,7 +1454,6 @@ MonoBehaviour:
   ObjectiveB: {fileID: 333261399}
   ObjectiveY: {fileID: 672000139}
   gameo: {fileID: 729792303}
-  overseerAgent: {fileID: 0}
 --- !u!114 &845911532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2108,7 +2106,6 @@ MonoBehaviour:
   ObjectiveB: {fileID: 333261399}
   ObjectiveY: {fileID: 672000139}
   gameo: {fileID: 729792303}
-  overseerAgent: {fileID: 0}
 --- !u!114 &1164157931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3217,7 +3214,6 @@ MonoBehaviour:
   ObjectiveB: {fileID: 333261399}
   ObjectiveY: {fileID: 672000139}
   gameo: {fileID: 729792303}
-  overseerAgent: {fileID: 0}
 --- !u!114 &1922607951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3448,7 +3444,6 @@ MonoBehaviour:
   ObjectiveB: {fileID: 333261399}
   ObjectiveY: {fileID: 672000139}
   gameo: {fileID: 729792303}
-  overseerAgent: {fileID: 0}
 --- !u!114 &1993253294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3775,7 +3770,6 @@ MonoBehaviour:
   ObjectiveB: {fileID: 333261399}
   ObjectiveY: {fileID: 672000139}
   gameo: {fileID: 729792303}
-  overseerAgent: {fileID: 755787582}
 --- !u!114 &2081197165
 MonoBehaviour:
   m_ObjectHideFlags: 0
