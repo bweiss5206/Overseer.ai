@@ -134,7 +134,7 @@ public class OverseerAgent : Agent
     {
         int chosenEntityIndex = actionBuffers.DiscreteActions[0];
 
-        //Debug.Log(GetCumulativeReward());
+        Debug.Log("Reward: "+ GetCumulativeReward());
         GameObject chosenEntity = null;
         entities.Sort((a, b) =>
         {
@@ -149,7 +149,7 @@ public class OverseerAgent : Agent
         });
 
         chosenEntity = entities[chosenEntityIndex];
-        Debug.Log(chosenEntityIndex);
+        Debug.Log("Button: "+chosenEntityIndex);
         //gunController.PointToMouse(chosenEntity.transform.position);
 
         if(entities[chosenEntityIndex] != null){
@@ -158,14 +158,16 @@ public class OverseerAgent : Agent
             {
                 // Positive reward for choosing the correct entity
                 AddReward(1.0f);
+                Debug.Log("+");
             }
 
             else
             {
                 // Negative reward for choosing the wrong entity
-                AddReward(-1.0f);
+                AddReward(-10.0f);
+                Debug.Log("-");
             }
-            Debug.Log("EndEpisode");
+            Debug.Log("EndEpisode: "+entities[chosenEntityIndex]);
             EndEpisode();
         }
 
