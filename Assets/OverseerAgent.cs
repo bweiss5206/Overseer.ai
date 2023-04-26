@@ -24,7 +24,15 @@ public class OverseerAgent : Agent
     public GameObject ObjectiveY;
     private Vector3 startPosition;
 
+    public float guessInterval = 10f;
+    private float lastGuessTime;
     public bool endEpisode;
+
+    public Transform firePoint;
+    //public bool isEndGame = false;
+    public LineRenderer laser;
+
+    public Camera sensorCamera;
 
     /// <summary>
     /// Called once when the agent is first initialized
@@ -33,6 +41,7 @@ public class OverseerAgent : Agent
     {
         startPosition = player.transform.position;
         gunController = this.GetComponent<GunController>();
+        Rigidbody overseerRigidbody = GetComponent<Rigidbody>();
     }
 
     // void Update()
@@ -99,27 +108,30 @@ public class OverseerAgent : Agent
 
         if (Input.GetKey(KeyCode.Alpha1))
         {
-            actionsOut.DiscreteActions.Array[0] = 0;
+            actionsOut.DiscreteActions.Array[0] = 1;
         }
         else if (Input.GetKey(KeyCode.Alpha2))
         {
-            actionsOut.DiscreteActions.Array[0] = 1;
+            actionsOut.DiscreteActions.Array[0] = 2;
         }
         else if (Input.GetKey(KeyCode.Alpha3))
         {
-
-            actionsOut.DiscreteActions.Array[0] = 2;
+            actionsOut.DiscreteActions.Array[0] = 3;
         }
         else if (Input.GetKey(KeyCode.Alpha4))
         {
-            actionsOut.DiscreteActions.Array[0] = 3;
+            actionsOut.DiscreteActions.Array[0] = 4;
         }
         else if (Input.GetKey(KeyCode.Alpha5))
         {
-            actionsOut.DiscreteActions.Array[0] = 4;
+            actionsOut.DiscreteActions.Array[0] = 5;
+        }
+        else if (Input.GetKey(KeyCode.Alpha6))
+        {
+            actionsOut.DiscreteActions.Array[0] = 6;
         }
         else {
-            actionsOut.DiscreteActions.Array[0] = 5;
+            actionsOut.DiscreteActions.Array[0] = 0;
         }
        
     }
@@ -132,46 +144,90 @@ public class OverseerAgent : Agent
     /// <param name="actions">The actions received</param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        float currentTime = Time.time;
         int chosenEntityIndex = actionBuffers.DiscreteActions[0];
-
         Debug.Log("Reward: "+ GetCumulativeReward());
-        GameObject chosenEntity = null;
+
         entities.Sort((a, b) =>
         {
-            if (a == null && b == null)
-                return 0; // Both are null, they are equal
-            else if (a == null)
-                return 1; // a is null, b is not null, a should be placed after b
-            else if (b == null)
-                return -1; // b is null, a is not null, a should be placed before b
-            else
-                return a.transform.position.x.CompareTo(b.transform.position.x); // Compare by their x positions
+            if (a == null) return -1; // If a is null, it should come after b
+            if (b == null) return 1; // If b is null, it should come after a
+
+            // If both a and b are not null, compare their positions using sqrMagnitude
+            return a.transform.position.sqrMagnitude.CompareTo(b.transform.position.sqrMagnitude);
         });
 
-        chosenEntity = entities[chosenEntityIndex];
-        Debug.Log("Button: "+chosenEntityIndex);
-        //gunController.PointToMouse(chosenEntity.transform.position);
+        PointToChosenEntity(chosenEntityIndex);
 
-        if(entities[chosenEntityIndex] != null){
-            // Check if the chosen entity is the player and assign rewards accordingly
-            if (chosenEntity.CompareTag("Player"))
-            {
-                // Positive reward for choosing the correct entity
-                AddReward(1.0f);
-                Debug.Log("+");
-            }
+        if (currentTime - lastGuessTime >= guessInterval)
+        {
+            GameObject chosenEntity = null;
+            chosenEntity = entities[chosenEntityIndex];
+            Debug.Log("Button: "+chosenEntityIndex);
 
-            else
-            {
-                // Negative reward for choosing the wrong entity
-                AddReward(-10.0f);
-                Debug.Log("-");
-            }
-            Debug.Log("EndEpisode: "+entities[chosenEntityIndex]);
-            EndEpisode();
-        }
 
-        // End the episode
+            if(entities[chosenEntityIndex] != null){
+
+                // Check if the chosen entity is the player and assign rewards accordingly
+                if (chosenEntity.CompareTag("Player"))
+                {
+                    // Positive reward for choosing the correct entity
+                    AddReward(1.0f);
+                    Debug.Log("+");
+                    Debug.Log("EndEpisode: "+ entities[chosenEntityIndex]);
+                    EndEpisode();
+                }
+
+                else
+                {
+                    // Negative reward for choosing the wrong entity
+                    AddReward(-10.0f);
+                    Debug.Log("incorrect guess");
+                    //last spot in the array, null pick
+                    chosenEntityIndex = 6;
+                }
+
+            } 
         
+            else {
+                    this.GetComponent<Rigidbody>().rotation = Quaternion.Euler(new Vector3(90, this.GetComponent<Rigidbody>().rotation.eulerAngles.y, 0));
+                }
+
+            lastGuessTime = currentTime;
+
+        }
     }
+public void PointToChosenEntity(int chosenEntityIndex)
+{
+    Rigidbody thisRigidbody = GetComponent<Rigidbody>();
+
+    if (chosenEntityIndex >= entities.Count || entities[chosenEntityIndex] == null)
+    {
+        thisRigidbody.rotation = Quaternion.Euler(90, thisRigidbody.rotation.eulerAngles.y, 0);
+        
+        laser.SetPosition(0, Vector3.zero);
+        laser.SetPosition(1, Vector3.zero);
+
+        return;
+    }
+
+    Vector3 targetPosition = entities[chosenEntityIndex].transform.position;
+    Vector3 directionToTarget = targetPosition - transform.position;
+
+    Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+    thisRigidbody.rotation = targetRotation;
+
+    RaycastHit hit;
+    if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, Mathf.Infinity))
+    {
+        laser.SetPosition(0, firePoint.position);
+        laser.SetPosition(1, hit.point);
+    }
+    else
+    {
+        laser.SetPosition(0, firePoint.position);
+        laser.SetPosition(1, firePoint.position + firePoint.forward * 1000);
+    }
+}
+
 }
