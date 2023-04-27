@@ -1,5 +1,5 @@
 behaviors:
-  OverseerBehavior:
+  OverseerAgent:
     trainer_type: ppo
     hyperparameters:
       batch_size: 1024
@@ -12,18 +12,18 @@ behaviors:
       learning_rate_schedule: linear
     network_settings:
       normalize: true
-      hidden_units: 128
-      num_layers: 2
+      hidden_units: 50
+      num_layers: 4
     reward_signals:
       extrinsic:
         gamma: 0.99
         strength: 1.0
       gail:
         strength: 0.5
-        demo_path: "Demos/OverseerAgentDemo"
+        demo_path: "C:/Users/bweiss/Documents/GitHub/Overseer.ai/Assets/Demos"
     behavioral_cloning:
       strength: 0.5
-      demo_path: "Demos/OverseerAgentDemo"
+      demo_path: "C:/Users/bweiss/Documents/GitHub/Overseer.ai/Assets/Demos"
     keep_checkpoints: 5
     checkpoint_interval: 50000
     max_steps: 5.0e5

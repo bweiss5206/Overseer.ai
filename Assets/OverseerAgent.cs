@@ -24,7 +24,7 @@ public class OverseerAgent : Agent
     public GameObject ObjectiveY;
     private Vector3 startPosition;
 
-    public float guessInterval = 10f;
+    public float guessInterval = 1f;
     private float lastGuessTime;
     public bool endEpisode;
 
@@ -87,9 +87,11 @@ public class OverseerAgent : Agent
         foreach (GameObject entity in entities)
         {
             if (entity != null)
-            {   
+            {
                 // Add position observation
-                sensor.AddObservation(entity.transform.position);
+                sensor.AddObservation(entity.transform.position.x);
+                sensor.AddObservation(entity.transform.position.z);
+
             }
             else
             {
@@ -181,7 +183,7 @@ public class OverseerAgent : Agent
                 else
                 {
                     // Negative reward for choosing the wrong entity
-                    AddReward(-10.0f);
+                    AddReward(-1.0f);
                     Debug.Log("incorrect guess");
                     //last spot in the array, null pick
                     chosenEntityIndex = 6;
