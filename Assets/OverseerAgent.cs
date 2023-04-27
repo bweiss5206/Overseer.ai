@@ -78,6 +78,24 @@ public class OverseerAgent : Agent
         B.Start();
         ObjectiveComplete Y = (ObjectiveComplete) ObjectiveY.GetComponent(typeof(ObjectiveComplete));
         Y.Start();
+
+        
+        entities.Sort((a, b) =>
+        {
+            if (a == null) return -1; // If a is null, it should come after b
+            if (b == null) return 1; // If b is null, it should come after a
+
+            // If both a and b are not null, compare their positions using sqrMagnitude
+            return a.transform.position.sqrMagnitude.CompareTo(b.transform.position.sqrMagnitude);
+        });
+
+        for (int i = 0; i < entities.Count; i++)
+        {
+            if (entities[i] != null)
+            {
+                entities[i].GetComponent<EntityColorByIndex>().SetIndex(i);
+            }
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -150,19 +168,11 @@ public class OverseerAgent : Agent
         int chosenEntityIndex = actionBuffers.DiscreteActions[0];
         Debug.Log("Reward: "+ GetCumulativeReward());
 
-        entities.Sort((a, b) =>
-        {
-            if (a == null) return -1; // If a is null, it should come after b
-            if (b == null) return 1; // If b is null, it should come after a
-
-            // If both a and b are not null, compare their positions using sqrMagnitude
-            return a.transform.position.sqrMagnitude.CompareTo(b.transform.position.sqrMagnitude);
-        });
 
         PointToChosenEntity(chosenEntityIndex);
 
-        if (currentTime - lastGuessTime >= guessInterval)
-        {
+        // if (currentTime - lastGuessTime >= guessInterval)
+        // {
             GameObject chosenEntity = null;
             chosenEntity = entities[chosenEntityIndex];
             Debug.Log("Button: "+chosenEntityIndex);
@@ -198,7 +208,7 @@ public class OverseerAgent : Agent
             lastGuessTime = currentTime;
 
         }
-    }
+    //}
 public void PointToChosenEntity(int chosenEntityIndex)
 {
     Rigidbody thisRigidbody = GetComponent<Rigidbody>();
